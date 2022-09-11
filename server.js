@@ -10,13 +10,13 @@ const port = process.env.PORT || 5000;
 // ****** SEND API
 app.post("/send", async (req, res) => {
   try {
-    const { orderId, cartItems } = req.body;
-    await EmailSender({ orderId, cartItems });
+    const { email, orderId, cartItems } = req.body;
+    await EmailSender({ email, orderId, cartItems });
     res.json({ msg: "Your message sent successfully" });
   } catch (error) {
     res.status(404).json({ msg: "Error ❌" });
   }
 });
 app.listen(port, () => {
-  //   console.log(`http://localhost:${port}`);
+  console.log(`http://localhost:${port}`);
 });

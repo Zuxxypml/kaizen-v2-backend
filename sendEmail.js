@@ -17,7 +17,7 @@ const Email = (options) => {
   });
 };
 // send email
-const EmailSender = ({ orderId, cartItems }) => {
+const EmailSender = ({ email, orderId, cartItems }) => {
   let items =
     cartItems.length &&
     cartItems.map(
@@ -34,7 +34,7 @@ const EmailSender = ({ orderId, cartItems }) => {
   //   console.log(items);
   const options = {
     from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
-    to: process.env.SEND_TO,
+    to: email,
     subject: "Message From Kaizen Brand 🛍️",
     html: `
         <div style="width: 100%; background-color: #fff; padding: 3rem 0">
