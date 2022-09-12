@@ -37,7 +37,16 @@ const EmailSender = ({ email, orderId, cartItems }) => {
     to: email,
     subject: "Message From Kaizen Brand 🛍️",
     html: `
-        <div style="width: 100%; background-color: #fff; padding: 3rem 0">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Summary</title>
+    </head>
+    <body>
+      <div style="width: 100%; background-color: #fff; padding: 3rem 0">
         <div style="max-width: 700px; background-color: white; margin: 0 auto">
           <div style="width: 100%; background-color: #fff; padding: 15px 0">
           <a href="${process.env.CLIENT_URL}" ><img
@@ -65,6 +74,8 @@ const EmailSender = ({ email, orderId, cartItems }) => {
           </div>
         </div>
       </div>
+    </body>
+    </html> 
         `,
   };
   Email(options);
