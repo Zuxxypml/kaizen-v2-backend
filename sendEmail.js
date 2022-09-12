@@ -22,11 +22,41 @@ const EmailSender = ({ email, orderId, cartItems }) => {
     cartItems.length &&
     cartItems.map(
       (item) =>
-        `<div>
-                <p>Product Name: ${item.name}</p>
-                <p>Product Price: ${item.price}</p>
-                <p>Product Quantity: ${item.quantity}</p>
-                </div>`
+        `
+       <div style=" flex: 1;
+              margin: 5px !important;
+              min-width: 270px;
+              max-width: 270px;
+              height: 350px;
+              padding: 30px 0px !important;
+              display: flex;
+              flex-direction: column !important;
+              align-items: center !important;
+              gap: 20px;
+              justify-content: center;
+              background-color: #b8a06a !important;
+
+            <div style="height: 80%;
+                  width: 80%;
+                  object-fit: cover;">
+              <img src="${item.imageUrl[0]}" alt="${item.name}" style=" width: 100%;
+                      height: 100%;
+                      z-index: 2;"/>
+            </div>
+            <div style=" width: 80%;
+                      gap: 10px;
+                      color: #000 !important;">
+                        <h4 style="font-weight: 800;
+                        color: #000 !important;">Product name: ${item.name}</h4>
+                         <h4 style="font-weight: 600;
+                        color: #000 !important;">Product price: ${item.price}</h4>
+                         <h4 style="font-weight: 600;
+                        color: #000 !important;">Product quantity: ${item.quantity}</h4>
+                        <h4 style="font-weight: 600;
+                        color: #000 !important;">Product color: ${item.colorName}</h4>
+            </div>
+       </div>
+        `
     );
   items =
     items &&
@@ -56,20 +86,18 @@ const EmailSender = ({ email, orderId, cartItems }) => {
           
           </div>
           <div style="width: 100%; gap: 10px; padding: 30px 0; display: grid">
-            <p style="font-weight: 800; font-size: 1.2rem; padding: 0 30px">
+            <p style="font-weight: 800; font-size: 1.2rem;">
               From Kaizen Brand 🛍️
             </p>
-            <div style="font-size: .8rem; margin: 0 30px">
+            <div style="font-size: .9rem;">
               <p>Our Email: <b>${process.env.CONTACT}</b></p>
               <p>Our Phone: <b>${process.env.PHONE}</b></p>
               <p>Your Order ID: <i>${orderId}</i></p>
               <p>Message: <i>${process.env.MESSAGE}</i></p>
             </div>
             <div style="">
-            <h4>Your Cart</h4>
-            <p>
+            <h2 style="text-align: center;">Order Summary</h2>
             ${items}
-            </p>
             </div>
           </div>
         </div>

@@ -5,7 +5,7 @@ import EmailSender from "./sendEmail.js";
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: `https://www.kaizenbrand.shop` }));
+app.use(cors({ origin: `*` }));
 const port = process.env.PORT || 5000;
 // ****** SEND API
 app.post("/send", async (req, res) => {
