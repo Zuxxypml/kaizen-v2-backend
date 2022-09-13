@@ -17,7 +17,7 @@ const Email = (options) => {
   });
 };
 // send email
-const EmailSender = ({ email, orderId, cartItems }) => {
+const AdminEmailSender = ({ phone, email, orderId, cartItems }) => {
   let items =
     cartItems.length &&
     cartItems.map(
@@ -80,8 +80,8 @@ const EmailSender = ({ email, orderId, cartItems }) => {
   //   console.log(items);
   const options = {
     from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
-    to: email,
-    subject: "Message From Kaizen Brand 🛍️",
+    to: process.env.CONTACT,
+    subject: "You have a new order 🛍️",
     html: `
     <!DOCTYPE html>
     <html lang="en">
@@ -106,13 +106,12 @@ const EmailSender = ({ email, orderId, cartItems }) => {
               From Kaizen Brand 🛍️
             </p>
             <div style="font-size: .9rem;">
-              <p>Our Email: <b>${process.env.CONTACT}</b></p>
-              <p>Our Phone: <b>${process.env.PHONE}</b></p>
-              <p>Your Order ID: <i>${orderId}</i></p>
-              <p>Message: <i>${process.env.MESSAGE}</i></p>
+              <p>Customer's Email: <b>${email}</b></p>
+              <p>Customer's Phone: <b>${phone}</b></p>
+              <p>Customer's Order ID: <i>${orderId}</i></p>
             </div>
             <div style="">
-            <h2 style="text-align: center;">Order Summary</h2>
+            <h2 style="text-align: center;">Customer's Order Summary</h2>
             ${items}
             </div>
           </div>
@@ -124,4 +123,4 @@ const EmailSender = ({ email, orderId, cartItems }) => {
   };
   Email(options);
 };
-export default EmailSender;
+export default AdminEmailSender;
