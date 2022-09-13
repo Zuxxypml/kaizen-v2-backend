@@ -68,7 +68,7 @@ const AdminEmailSender = ({ phone, email, orderId, cartItems }) => {
                           item.type
                             ? `<h4 style="font-weight: 600;
                         color: #000 !important;">Product Neck Type: ${item.type}</h4>`
-                            : null
+                            : `<p></p>`
                         }
             </div>
        </div>
