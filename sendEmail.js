@@ -25,6 +25,7 @@ const EmailSender = ({
   totalPrice,
   shippingFee,
   pickupLocation,
+  address,
 }) => {
   let items =
     cartItems.length &&
@@ -493,6 +494,8 @@ const EmailSender = ({
     items &&
     items.reduce((accumulator, currentValue) => accumulator + currentValue);
   //   console.log(items);
+  const todayDate = new Date().toLocaleDateString("en-NG");
+  console.log(todayDate);
   const options = {
     from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
     to: email,
@@ -1087,27 +1090,27 @@ const EmailSender = ({
                                           mso-line-height-alt: 21px;
                                         "
                                       >
-                                        <strong>ORDER:</strong>
+                                        <strong>ORDER ID:</strong>
                                         <span
                                           style="
                                             color: #808080;
                                             font-size: 14px;
                                           "
-                                          >9101938</span
+                                          >${orderId}</span
                                         ><br /><strong>ORDER DATE:</strong>
                                         <span
                                           style="
                                             color: #808080;
                                             font-size: 14px;
                                           "
-                                          >Apr 3, 2019</span
+                                          >${todayDate}</span
                                         ><br /><strong>ORDER TOTAL:</strong>
                                         <span
                                           style="
                                             color: #808080;
                                             font-size: 14px;
                                           "
-                                          >$38,90</span
+                                          >₦${totalPrice}</span
                                         >
                                       </p>
                                     </div>
@@ -1272,9 +1275,11 @@ const EmailSender = ({
                                           mso-line-height-alt: 21px;
                                         "
                                       >
-                                        <strong>HARRY MAC INTOSH</strong
-                                        ><br />123 Anywhere road<br />Anywhere,
-                                        IT 82933
+                                        ${
+                                          shippingFee
+                                            ? `₦${shippingFee}`
+                                            : address
+                                        }
                                       </p>
                                     </div>
                                   </div>
@@ -1354,7 +1359,7 @@ const EmailSender = ({
                                   <div align="center" class="alignment">
                                     <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="#" style="height:46px;width:231px;v-text-anchor:middle;" arcsize="33%" stroke="false" fillcolor="#fc7318"><w:anchorlock/><v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Tahoma, Verdana, sans-serif; font-size:18px"><!
                                     [endif]--><a
-                                      href="#"
+                                      href="tel:2349054210115"
                                       style="
                                         text-decoration: none;
                                         display: inline-block;
@@ -1390,7 +1395,7 @@ const EmailSender = ({
                                             data-mce-style=""
                                             style="line-height: 36px"
                                             ><strong
-                                              >VIEW ORDER STATUS › </strong
+                                              >CONFIRM ORDER STATUS › </strong
                                             ></span
                                           ></span
                                         ></span
@@ -2239,9 +2244,9 @@ const EmailSender = ({
                                       >
                                         <span style="font-size: 16px"
                                           ><span style="font-size: 16px"
-                                            >₦${
+                                            >${
                                               shippingFee
-                                                ? shippingFee
+                                                ? `₦${shippingFee}`
                                                 : `${pickupLocation}`
                                             }</span
                                           ></span

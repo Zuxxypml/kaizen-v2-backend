@@ -19,6 +19,7 @@ app.post("/send", async (req, res) => {
       totalPrice,
       shippingFee,
       pickupLocation,
+      address,
     } = req.body;
     await EmailSender({
       email,
@@ -28,6 +29,7 @@ app.post("/send", async (req, res) => {
       totalPrice,
       shippingFee,
       pickupLocation,
+      address,
     });
     res.json({ msg: "Your message sent successfully" });
   } catch (error) {
