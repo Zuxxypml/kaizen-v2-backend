@@ -2094,7 +2094,7 @@ const AdminEmailSender = ({
                                       </p>
                                     </div>
                                   </div>
-                                </td>ing
+                                </td>
                               </tr>
                             </table>
                           </td>

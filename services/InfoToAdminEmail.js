@@ -21,7 +21,7 @@ const InfoToAdminEmail = ({ phone, email, orderId, deliveryType, address }) => {
   const options = {
     from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
     to: process.env.CONTACT,
-    subject: "You have a new order 🛍️",
+    subject: "New order 🛍️🛍️ Customer Details",
     html: `
     <!DOCTYPE html>
     <html lang="en">
@@ -43,14 +43,14 @@ const InfoToAdminEmail = ({ phone, email, orderId, deliveryType, address }) => {
           </div>
           <div style="width: 100%; gap: 10px; padding: 30px 0; display: grid">
             <p style="font-weight: 800; font-size: 1.2rem;">
-              For Kaizen Brand 🛍️ Customer Details
+              Order 🛍️ Customer Details
             </p>
             <div style="font-size: .9rem;">
               <p>Customer's Email: <b>${email}</b></p>
               <p>Customer's Phone: <b>${phone}</b></p>
               <p>Customer's Order ID: <b>${orderId}</b></p>
               <p>Customer's Devlivery Option: <b>${deliveryType}</b> </p>
-              <p>Customer's address: <b>${address}</b> </p>
+              <p>Customer's address: <b>${address}</b> </p>kid
             </div>
           </div>
         </div>
