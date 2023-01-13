@@ -269,6 +269,24 @@ const EmailSender = ({
                                         >`
                                              : ""
                                          }
+                                         <br/>
+                                          ${
+                                            item.type
+                                              ? ` <span
+                                          style="font-size: 16px; color: #000"
+                                          ><strong>NECK TYPE</strong> <br/>
+                                           <p
+                                        style="
+                                          margin: 0;
+                                          font-size: 14px;
+                                          text-align: left;
+                                          mso-line-height-alt: 16.8px;
+                                        "
+                                      >${item.type}</p>
+                                          </span
+                                        >`
+                                              : ""
+                                          }
                                       </p>
                                     </div>
                                   </div>
