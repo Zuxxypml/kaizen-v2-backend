@@ -17,7 +17,7 @@ const Email = (options) => {
   });
 };
 // send email
-const EmailSender = ({
+const AdminEmailSender = ({
   email,
   orderId,
   cartItems,
@@ -2094,7 +2094,7 @@ const EmailSender = ({
                                       </p>
                                     </div>
                                   </div>
-                                </td>
+                                </td>ing
                               </tr>
                             </table>
                           </td>
@@ -3015,4 +3015,4 @@ const EmailSender = ({
   };
   Email(options);
 };
-export default EmailSender;
+export default AdminEmailSender;
