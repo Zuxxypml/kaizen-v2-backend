@@ -1288,7 +1288,7 @@ export const EmailSender = (
                                           mso-line-height-alt: 21px;
                                         "
                                       >
-                                        ${shippingFee ? `₦${address}` : address}
+                                        ${shippingFee ? `${address}` : address}
                                       </p>
                                     </div>
                                   </div>

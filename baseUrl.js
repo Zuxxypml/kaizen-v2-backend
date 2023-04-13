@@ -1,10 +1,4 @@
-let serverUrl;
-
-if (process.env.NODE_ENV === "production") {
-  serverUrl = "https://kaizen-backend.onrender.com";
-} else {
-  serverUrl = "http://localhost:8080";
-}
+let serverUrl = "https://kaizen-backend.onrender.com";
 
 // Use serverUrl to make API calls in your code
 
