@@ -2189,7 +2189,11 @@ export const AdminEmailSender = (
                                           mso-line-height-alt: 16.8px;
                                         "
                                       >
-                                        Flat-rate shipping
+                                      ${
+                                        shippingFee
+                                          ? `Flat rate shipping Fee`
+                                          : `Pickup Location`
+                                      }
                                       </p>
                                     </div>
                                   </div>
