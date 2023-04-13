@@ -72,9 +72,6 @@ app.use("/api/product", productRouter);
 app.use("/api/collection", collectionRouter);
 app.use("/api/mail", mailRouter);
 
-// ****** SEND API
-app.post("/send");
-
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose
