@@ -1,23 +1,23 @@
 import nodemailer from "nodemailer";
-const Email = (options) => {
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.USER,
-      pass: process.env.PASSWORD,
-    },
-  });
-  transporter.sendMail(options, (err, info) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-  });
-};
+import dotenv from "dotenv";
+dotenv.config();
+// Create a transporter object
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: `${process.env.MAIL_USERNAME}`,
+    pass: `${process.env.APP_PASSWORD}`,
+  },
+});
+
 // send email
-const InfoToAdminEmail = ({ phone, email, orderId, deliveryType, address }) => {
+export const InfoToAdminEmail = (
+  phone,
+  email,
+  orderId,
+  deliveryType,
+  address
+) => {
   const options = {
     from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
     to: process.env.CONTACT,
@@ -59,6 +59,5 @@ const InfoToAdminEmail = ({ phone, email, orderId, deliveryType, address }) => {
     </html> 
         `,
   };
-  Email(options);
+  transporter.sendMail(options).then(console.log).catch(console.error);
 };
-export default InfoToAdminEmail;

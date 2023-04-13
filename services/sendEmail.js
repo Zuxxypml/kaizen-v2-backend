@@ -1,23 +1,18 @@
+import dotenv from "dotenv";
 import nodemailer from "nodemailer";
-const Email = (options) => {
-  let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
-    auth: {
-      user: process.env.USER,
-      pass: process.env.PASSWORD,
-    },
-  });
-  transporter.sendMail(options, (err, info) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-  });
-};
+import serverUrl from "../baseUrl.js";
+dotenv.config();
+// Create a transporter object
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: `${process.env.MAIL_USERNAME}`,
+    pass: `${process.env.APP_PASSWORD}`,
+  },
+});
+
 // send email
-const EmailSender = ({
+export const EmailSender = (
   email,
   orderId,
   cartItems,
@@ -25,8 +20,8 @@ const EmailSender = ({
   totalPrice,
   shippingFee,
   pickupLocation,
-  address,
-}) => {
+  address
+) => {
   let items =
     cartItems.length &&
     cartItems.map(
@@ -107,9 +102,9 @@ const EmailSender = ({
                                     style="line-height: 10px"
                                   >
                                     <img
-                                     src="${item.imageUrl[0]}" alt="${
-          item.name
-        }"
+                                     src="${serverUrl}/assets/${
+          item.productImages[0]
+        }" alt="${item.productName}"
                                       style="
                                         display: block;
                                         height: auto;
@@ -237,7 +232,7 @@ const EmailSender = ({
                                           mso-line-height-alt: 16.8px;
                                         "
                                       >
-                                         ${item.name} <br/>
+                                         ${item.productName} <br/>
                                           <span
                                           style="font-size: 16px; color: #000"
                                           ><strong>SIZE</strong>
@@ -489,7 +484,7 @@ const EmailSender = ({
                                       >
                                         <span style="font-size: 20px"
                                           ><span style="font-size: 20px"
-                                            >₦${item.price}</span
+                                            >₦${item.productPrice}</span
                                           ></span
                                         >
                                       </p>
@@ -1293,11 +1288,7 @@ const EmailSender = ({
                                           mso-line-height-alt: 21px;
                                         "
                                       >
-                                        ${
-                                          shippingFee
-                                            ? `₦${shippingFee}`
-                                            : address
-                                        }
+                                        ${shippingFee ? `₦${address}` : address}
                                       </p>
                                     </div>
                                   </div>
@@ -2194,7 +2185,11 @@ const EmailSender = ({
                                           mso-line-height-alt: 16.8px;
                                         "
                                       >
-                                        Flat-rate shipping
+                                        ${
+                                          shippingFee
+                                            ? `Flat rate shipping fee`
+                                            : `Pickup Location`
+                                        }
                                       </p>
                                     </div>
                                   </div>
@@ -3013,6 +3008,5 @@ const EmailSender = ({
   </body>
 </html>        `,
   };
-  Email(options);
+  transporter.sendMail(options).then(console.log).catch(console.error);
 };
-export default EmailSender;
