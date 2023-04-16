@@ -9,9 +9,14 @@ import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";
 import {
+  handleCreateNewBanner,
+  handleEditBannerDetails,
+} from "./controllers/banner.controllers.js";
+import {
   handleCreateNewProduct,
   handleEditProductDetails,
 } from "./controllers/product.controllers.js";
+import bannerRouter from "./routes/banner.routes.js";
 import collectionRouter from "./routes/collection.routes.js";
 import mailRouter from "./routes/mail.routes.js";
 import productRouter from "./routes/product.routes.js";
@@ -69,11 +74,17 @@ app.patch(
   upload.array("pictures"),
   handleEditProductDetails
 );
+app.post("/api/banner", upload.array("pictures"), handleCreateNewBanner);
+app.patch(
+  "/api/banner/edit/:bannerID",
+  upload.array("pictures"),
+  handleEditBannerDetails
+);
 // ROUTES
 app.use("/api/product", productRouter);
 app.use("/api/collection", collectionRouter);
 app.use("/api/mail", mailRouter);
-
+app.use("/api/banner", bannerRouter);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 mongoose

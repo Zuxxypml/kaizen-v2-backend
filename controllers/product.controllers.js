@@ -56,8 +56,8 @@ export const handleCreateNewProduct = async (req, res) => {
     productCategory,
     productCollection,
     productPrice,
-    productImages,
     productType,
+    isBestSelling,
   } = req.body;
   try {
     const files = req.files;
@@ -92,6 +92,7 @@ export const handleCreateNewProduct = async (req, res) => {
         productName,
         productPrice,
         productType,
+        isBestSelling: isBestSelling === "true" ? true : false,
       });
       const savedProduct = await newProduct.save();
       return res.status(200).json({ savedProduct });
@@ -121,6 +122,7 @@ export const handleEditProductDetails = async (req, res) => {
     productPrice,
     productImages,
     productType,
+    isBestSelling,
   } = req.body;
   console.log(req.body);
   try {
@@ -142,6 +144,7 @@ export const handleEditProductDetails = async (req, res) => {
         ),
         productPrice,
         productType,
+        isBestSelling: isBestSelling === "true" ? true : false,
       },
       { new: true }
     );
@@ -150,5 +153,25 @@ export const handleEditProductDetails = async (req, res) => {
     return res
       .status(400)
       .json({ error: "Unabled to Edit product. An error occured.." });
+  }
+};
+export const handleAddOrRemoveProductInBestSelling = async (req, res) => {
+  const id = req.params.productID;
+  const { isBestSelling } = req.body;
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      {
+        isBestSelling: isBestSelling === true ? true : false,
+      },
+      { new: true }
+    );
+    return res.status(200).json({ updatedProduct: updatedProduct });
+  } catch (error) {
+    console.log(error);
+    console.log(error.message);
+    return res
+      .status(400)
+      .json({ error: "Unabled to Add or remove product. An error occured.." });
   }
 };

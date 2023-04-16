@@ -29,6 +29,10 @@ const ProductSchema = mongoose.Schema(
       type: Array,
       default: [],
     },
+    isBestSelling: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
