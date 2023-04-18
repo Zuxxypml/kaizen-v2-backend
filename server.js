@@ -20,6 +20,7 @@ import bannerRouter from "./routes/banner.routes.js";
 import collectionRouter from "./routes/collection.routes.js";
 import mailRouter from "./routes/mail.routes.js";
 import productRouter from "./routes/product.routes.js";
+import authRouter from "./routes/user.routes.js";
 dotenv.config();
 
 /* CONFIGURATIONS */
@@ -85,16 +86,23 @@ app.use("/api/product", productRouter);
 app.use("/api/collection", collectionRouter);
 app.use("/api/mail", mailRouter);
 app.use("/api/banner", bannerRouter);
+app.use("/auth", authRouter);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
-mongoose
-  .connect(process.env.MONGO_URL, {
+
+async function connectToDatabaseAndStartServer() {
+  mongoose.connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  })
+  });
+}
+connectToDatabaseAndStartServer()
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
     console.log("Database Connected and Server Successfully Started");
   })
-  .catch((error) => console.log(`${error} did not connect`));
+  .catch((error) => {
+    connectToDatabaseAndStartServer();
+    console.log(`${error} did not connect`);
+  });
