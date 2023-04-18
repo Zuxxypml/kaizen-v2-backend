@@ -16,6 +16,7 @@ import {
   handleCreateNewProduct,
   handleEditProductDetails,
 } from "./controllers/product.controllers.js";
+import { verifyToken } from "./middleware/auth.js";
 import bannerRouter from "./routes/banner.routes.js";
 import collectionRouter from "./routes/collection.routes.js";
 import mailRouter from "./routes/mail.routes.js";
@@ -69,15 +70,27 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // ROUTES WITH FILES
-app.post("/api/product", upload.array("pictures"), handleCreateNewProduct);
+app.post(
+  "/api/product",
+  verifyToken,
+  upload.array("pictures"),
+  handleCreateNewProduct
+);
 app.patch(
   "/api/product/edit/:productID",
+  verifyToken,
   upload.array("pictures"),
   handleEditProductDetails
 );
-app.post("/api/banner", upload.array("pictures"), handleCreateNewBanner);
+app.post(
+  "/api/banner",
+  verifyToken,
+  upload.array("pictures"),
+  handleCreateNewBanner
+);
 app.patch(
   "/api/banner/edit/:bannerID",
+  verifyToken,
   upload.array("pictures"),
   handleEditBannerDetails
 );
