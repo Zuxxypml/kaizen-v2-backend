@@ -1,5 +1,5 @@
-import nodemailer from "nodemailer";
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 dotenv.config();
 // Create a transporter object
 let transporter = nodemailer.createTransport({
@@ -18,12 +18,13 @@ export const InfoToAdminEmail = (
   deliveryType,
   address
 ) => {
-  const options = {
-    from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
-    to: process.env.CONTACT,
-    subject: "New order 🛍️🛍️ Customer Details",
-    html: `
-    <!DOCTYPE html>
+  return new Promise((resolve, reject) => {
+    const options = {
+      from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
+      to: process.env.CONTACT,
+      subject: "New order 🛍️🛍️ Customer Details",
+      html: `
+      <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8" />
@@ -50,14 +51,22 @@ export const InfoToAdminEmail = (
               <p>Customer's Phone: <b>${phone}</b></p>
               <p>Customer's Order ID: <b>${orderId}</b></p>
               <p>Customer's Devlivery Option: <b>${deliveryType}</b> </p>
-              <p>Customer's address: <b>${address}</b> </p>kid
+              <p>Customer's address: <b>${address}</b> </p>
             </div>
           </div>
         </div>
       </div>
     </body>
     </html> 
-        `,
-  };
-  transporter.sendMail(options).then(console.log).catch(console.error);
+         `,
+    };
+
+    transporter.sendMail(options, (error, info) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(info);
+      }
+    });
+  });
 };
