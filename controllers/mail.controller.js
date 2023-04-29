@@ -14,7 +14,7 @@ export const handleAdminMail = async (req, res) => {
       pickupLocation,
       address,
     } = req.body;
-    AdminEmailSender(
+    await AdminEmailSender(
       email,
       orderId,
       cartItems,
@@ -33,7 +33,7 @@ export const handleAdminMail = async (req, res) => {
 export const handleCustomerDetailsToAdmin = async (req, res) => {
   try {
     const { email, orderId, address, phone, deliveryType } = req.body;
-    InfoToAdminEmail(phone, email, orderId, deliveryType, address);
+    await InfoToAdminEmail(phone, email, orderId, deliveryType, address);
     return res.status(200).json({ msg: "Your message sent successfully" });
   } catch (error) {
     return res.status(404).json({ error: "Error ❌" });
@@ -53,7 +53,7 @@ export const handleCustomerMail = async (req, res) => {
       address,
     } = req.body;
     console.log(req.body);
-    EmailSender(
+    await EmailSender(
       email,
       orderId,
       cartItems,
