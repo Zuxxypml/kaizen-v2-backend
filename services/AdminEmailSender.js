@@ -508,12 +508,13 @@ export const AdminEmailSender = (
     items.reduce((accumulator, currentValue) => accumulator + currentValue);
   //   console.log(items);
   const todayDate = new Date().toLocaleDateString("en-NG");
-  console.log(todayDate);
-  const options = {
-    from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
-    to: process.env.CONTACT,
-    subject: "Kaizen Brand You have a New Order sir 🛍️",
-    html: `
+  // console.log(todayDate);
+  return new Promise((resolve, reject) => {
+    const options = {
+      from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
+      to: process.env.CONTACT,
+      subject: "Kaizen Brand You have a New Order sir 🛍️",
+      html: `
    <!DOCTYPE html>
 
 <html
@@ -3007,6 +3008,14 @@ export const AdminEmailSender = (
     <!-- End -->
   </body>
 </html>        `,
-  };
-  transporter.sendMail(options).then(console.log).catch(console.error);
+    };
+
+    transporter.sendMail(options, (error, info) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(info);
+      }
+    });
+  });
 };
