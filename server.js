@@ -103,19 +103,14 @@ app.use("/auth", authRouter);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 6001;
 
-async function connectToDatabaseAndStartServer() {
-  mongoose.connect(process.env.MONGO_URL, {
+mongoose
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  });
-}
-connectToDatabaseAndStartServer()
+  })
   .then(() => {
     app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
 
     console.log("Database Connected and Server Successfully Started");
   })
-  .catch((error) => {
-    connectToDatabaseAndStartServer();
-    console.log(`${error} did not connect`);
-  });
+  .catch((error) => console.log(`${error} did not connect`));

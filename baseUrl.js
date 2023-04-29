@@ -1,4 +1,4 @@
-let serverUrl = "https://kaizen-backend.onrender.com";
+let serverUrl = "https://itchy-moth-drawers.cyclic.app";
 
 // Use serverUrl to make API calls in your code
 
