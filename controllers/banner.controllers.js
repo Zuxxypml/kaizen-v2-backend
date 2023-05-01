@@ -1,6 +1,4 @@
-import fs from "fs";
 import path from "path";
-import sharp from "sharp";
 import { fileURLToPath } from "url";
 import Banner from "../models/Banner/Banner.model.js";
 
@@ -10,36 +8,24 @@ const __dirname = path.dirname(__filename);
 const IMAGE_DIR = path.join(__dirname, "public", "assets");
 const IMAGE_EXT = "webp";
 
-const saveImageWithModifiedName = async (image, imagePath, modifiedName) => {
-  const oldFilePath = imagePath;
-  const newFilePath = path.join(path.dirname(imagePath), modifiedName);
+const saveImagesWithModifiedName = async (files, productName) => {
+  const imageUrls = [];
+  console.log(files);
   try {
-    // Resize and convert the image to WebP format
-    await sharp(image.buffer).webp({ quality: 80 }).toFile(newFilePath);
+    files.map((file) => imageUrls.push(file.path));
   } catch (err) {
-    throw new Error(`Error processing image: ${err.message}`);
+    console.error(err);
+    throw new Error(`Error uploading images: ${err.message}`);
   }
+  return imageUrls;
 };
-
-const saveImagesWithModifiedName = async (images, productName) => {
-  const imageNames = [];
-
-  for (let i = 0; i < images.length; i++) {
-    const originalName = images[i].originalname;
-    const productNameWithIndex = `${productName}Image${i}`;
-    const modifiedName = `${productNameWithIndex}.${IMAGE_EXT}`;
-    const imagePath = path.join(IMAGE_DIR, modifiedName);
-
-    try {
-      const fileData = fs.readFileSync(images[i].path); // Read file data from disk
-      await saveImageWithModifiedName(fileData, images[i].path, modifiedName); // Pass file data to the image processing function
-      imageNames.push(modifiedName);
-    } catch (err) {
-      throw new Error(`Error processing image: ${err.message}`);
-    }
+export const handleGetAllProducts = async (req, res) => {
+  try {
+    const allProducts = await Product.find({});
+    return res.status(200).json(allProducts);
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
-
-  return imageNames;
 };
 
 export const handleCreateNewBanner = async (req, res) => {
