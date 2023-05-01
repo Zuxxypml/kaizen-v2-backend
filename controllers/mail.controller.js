@@ -32,8 +32,16 @@ export const handleAdminMail = async (req, res) => {
 
 export const handleCustomerDetailsToAdmin = async (req, res) => {
   try {
-    const { email, orderId, address, phone, deliveryType } = req.body;
-    await InfoToAdminEmail(phone, email, orderId, deliveryType, address);
+    const { email, orderId, address, phone, deliveryType, marketerCode } =
+      req.body;
+    await InfoToAdminEmail(
+      phone,
+      email,
+      orderId,
+      deliveryType,
+      address,
+      marketerCode
+    );
     return res.status(200).json({ msg: "Your message sent successfully" });
   } catch (error) {
     return res.status(404).json({ error: "Error ❌" });

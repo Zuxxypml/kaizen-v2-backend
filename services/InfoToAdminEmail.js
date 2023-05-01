@@ -16,7 +16,8 @@ export const InfoToAdminEmail = (
   email,
   orderId,
   deliveryType,
-  address
+  address,
+  marketerCode
 ) => {
   return new Promise((resolve, reject) => {
     const options = {
@@ -52,6 +53,7 @@ export const InfoToAdminEmail = (
               <p>Customer's Order ID: <b>${orderId}</b></p>
               <p>Customer's Devlivery Option: <b>${deliveryType}</b> </p>
               <p>Customer's address: <b>${address}</b> </p>
+              <p>Marketer's Code Used: <b>${marketerCode}</b> </p>
             </div>
           </div>
         </div>
