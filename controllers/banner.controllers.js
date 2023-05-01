@@ -3,10 +3,10 @@ import { fileURLToPath } from "url";
 import Banner from "../models/Banner/Banner.model.js";
 
 // Utility
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const IMAGE_DIR = path.join(__dirname, "public", "assets");
-const IMAGE_EXT = "webp";
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// const IMAGE_DIR = path.join(__dirname, "public", "assets");
+// const IMAGE_EXT = "webp";
 
 const saveImagesWithModifiedName = async (files, productName) => {
   const imageUrls = [];
