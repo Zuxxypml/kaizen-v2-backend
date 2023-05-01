@@ -1,50 +1,25 @@
-import cloudinary from "cloudinary";
 import dotenv from "dotenv";
-import path from "path";
-import { fileURLToPath } from "url";
+// import { fileURLToPath } from "url";
 import Product from "../models/Products/Product.model.js";
 
 // Utility
 dotenv.config();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const IMAGE_DIR = path.join(__dirname, "public", "assets");
-const IMAGE_EXT = "webp";
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// const IMAGE_DIR = path.join(__dirname, "public", "assets");
+// const IMAGE_EXT = "webp";
 
-// Configure Cloudinary
-cloudinary.config({
-  cloud_name: `${process.env.CLOUD_NAME}`,
-  api_key: `${process.env.API_KEY}`,
-  api_secret: `${process.env.API_SECRET}`,
-});
-
-const saveImagesWithModifiedName = async (images, productName) => {
+const saveImagesWithModifiedName = async (files, productName) => {
   const imageUrls = [];
-
-  for (let i = 0; i < images.length; i++) {
-    const originalName = images[i].originalname;
-    const productNameWithIndex = `${productName}Image${i}`;
-    const modifiedName = `${productNameWithIndex}${path.extname(originalName)}`;
-
-    try {
-      // Upload the image directly to Cloudinary and convert to WebP format
-      const uploadResult = await cloudinary.uploader.upload(images[i].path, {
-        public_id: modifiedName,
-        resource_type: "auto",
-        format: "webp", // Convert the image to WebP format
-      });
-
-      // Retrieve the secure URL from the upload result
-      const imageUrl = uploadResult.secure_url;
-      imageUrls.push(imageUrl);
-    } catch (err) {
-      console.log(err);
-      throw new Error(`Error uploading image: ${err.message}`);
-    }
+  console.log(files);
+  try {
+    files.map((file) => imageUrls.push(file.path));
+  } catch (err) {
+    console.error(err);
+    throw new Error(`Error uploading images: ${err.message}`);
   }
   return imageUrls;
 };
-
 export const handleGetAllProducts = async (req, res) => {
   try {
     const allProducts = await Product.find({});
@@ -65,6 +40,7 @@ export const handleCreateNewProduct = async (req, res) => {
   } = req.body;
   try {
     const files = req.files;
+
     if (!files || files.length === 0) {
       throw new Error("No files uploaded!");
     }
@@ -128,7 +104,7 @@ export const handleEditProductDetails = async (req, res) => {
     productType,
     isBestSelling,
   } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const files = req.files;
     if (!files || files.length === 0) {

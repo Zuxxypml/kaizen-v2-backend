@@ -1,4 +1,5 @@
 import bodyParser from "body-parser";
+import cloudinary from "cloudinary";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
@@ -6,6 +7,7 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
 import path from "path";
 import { fileURLToPath } from "url";
 import {
@@ -56,17 +58,23 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
-/* FILE STORAGE */
-// Define storage options for multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/assets");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: `${process.env.CLOUD_NAME}`,
+  api_key: `${process.env.API_KEY}`,
+  api_secret: `${process.env.API_SECRET}`,
+});
+// Configure Multer storage for Cloudinary
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary.v2,
+  params: {
+    folder: "Assets",
+    format: async (req, file) => "webp", // Set the format of the uploaded image
+    public_id: (req, file) => `${Date.now()}-${file.originalname}`, // Set the public ID for the uploaded image
   },
 });
 
+// Initialize Multer upload middleware
 const upload = multer({ storage });
 
 // ROUTES WITH FILES
