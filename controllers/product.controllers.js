@@ -1,44 +1,48 @@
-import fs from "fs";
+import cloudinary from "cloudinary";
+import dotenv from "dotenv";
 import path from "path";
-import sharp from "sharp";
 import { fileURLToPath } from "url";
 import Product from "../models/Products/Product.model.js";
 
 // Utility
+dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const IMAGE_DIR = path.join(__dirname, "public", "assets");
 const IMAGE_EXT = "webp";
 
-const saveImageWithModifiedName = async (image, imagePath, modifiedName) => {
-  const newFilePath = path.join(path.dirname(imagePath), modifiedName);
-  try {
-    // Resize and convert the image to WebP format
-    await sharp(image.buffer).webp({ quality: 80 }).toFile(newFilePath);
-  } catch (err) {
-    throw new Error(`Error processing image: ${err.message}`);
-  }
-};
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: `${process.env.CLOUD_NAME}`,
+  api_key: `${process.env.API_KEY}`,
+  api_secret: `${process.env.API_SECRET}`,
+});
 
 const saveImagesWithModifiedName = async (images, productName) => {
-  const imageNames = [];
+  const imageUrls = [];
 
   for (let i = 0; i < images.length; i++) {
     const originalName = images[i].originalname;
     const productNameWithIndex = `${productName}Image${i}`;
-    const modifiedName = `${productNameWithIndex}.${IMAGE_EXT}`;
-    const imagePath = path.join(IMAGE_DIR, modifiedName);
+    const modifiedName = `${productNameWithIndex}${path.extname(originalName)}`;
 
     try {
-      const fileData = fs.readFileSync(images[i].path); // Read file data from disk
-      await saveImageWithModifiedName(fileData, images[i].path, modifiedName); // Pass file data to the image processing function
-      imageNames.push(modifiedName);
+      // Upload the image directly to Cloudinary and convert to WebP format
+      const uploadResult = await cloudinary.uploader.upload(images[i].path, {
+        public_id: modifiedName,
+        resource_type: "auto",
+        format: "webp", // Convert the image to WebP format
+      });
+
+      // Retrieve the secure URL from the upload result
+      const imageUrl = uploadResult.secure_url;
+      imageUrls.push(imageUrl);
     } catch (err) {
-      throw new Error(`Error processing image: ${err.message}`);
+      console.log(err);
+      throw new Error(`Error uploading image: ${err.message}`);
     }
   }
-
-  return imageNames;
+  return imageUrls;
 };
 
 export const handleGetAllProducts = async (req, res) => {
