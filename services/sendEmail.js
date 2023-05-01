@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
-import serverUrl from "../baseUrl.js";
 dotenv.config();
 // Create a transporter object
 let transporter = nodemailer.createTransport({
@@ -102,9 +101,9 @@ export const EmailSender = (
                                     style="line-height: 10px"
                                   >
                                     <img
-                                     src="${serverUrl}/assets/${
-          item.productImages[0]
-        }" alt="${item.productName}"
+                                     src="${item.productImages[0]}" alt="${
+          item.productName
+        }"
                                       style="
                                         display: block;
                                         height: auto;
