@@ -8,3 +8,9 @@ export const handleGetCollections = async (req, res) => {
     return res.status(400).json({ error: "Unable to get collections" });
   }
 };
+
+// Add to Collection or create and add to collection
+export const addProductToExistingCollectionOrNewCollection = async (
+  req,
+  res
+) => {};

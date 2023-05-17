@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 // import { fileURLToPath } from "url";
+import Collection from "../models/Collection/Collection.model.js";
 import Product from "../models/Products/Product.model.js";
 
 // Utility
@@ -75,6 +76,28 @@ export const handleCreateNewProduct = async (req, res) => {
         isBestSelling: isBestSelling === "true" ? true : false,
       });
       const savedProduct = await newProduct.save();
+      const product_id = savedProduct._id;
+      const existingProductInCollection = await Collection.findOne({
+        collectionName: productCollection,
+        collectionProductsIds: {
+          $elemMatch: { _id: product_id },
+        },
+      })
+        .then((data) => {
+          if (data) {
+            return data;
+          }
+        })
+        .catch((err) => {
+          return err;
+        });
+      if (!existingProductInCollection) {
+        await Collection.findOneAndUpdate(
+          { collectionName: productCollection },
+          { $push: { collectionProductsIds: product_id } },
+          { new: true, upsert: true }
+        );
+      }
       return res.status(200).json({ savedProduct });
     }
   } catch (error) {
@@ -83,11 +106,16 @@ export const handleCreateNewProduct = async (req, res) => {
 };
 export const handleDeleteProduct = async (req, res) => {
   const productID = req.params.productID;
-
+  const product = await Product.findById({ _id: productID });
+  // console.log(product);
   try {
     const result = await Product.deleteOne({ _id: productID });
     console.log(`Deleted ${result.deletedCount} item(s)`);
-
+    await Collection.findOneAndUpdate(
+      { collectionName: product.productCollection },
+      { $pull: { collectionProductsIds: product._id } },
+      { new: true }
+    );
     return res.status(200).json({ message: "Item deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: "Internal server error" });
