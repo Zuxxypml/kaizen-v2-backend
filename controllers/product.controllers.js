@@ -139,7 +139,7 @@ export const handleEditProductDetails = async (req, res) => {
       throw new Error("No files uploaded!");
     }
     const images = req.files;
-
+    const product = Product.findOne({ _id: id });
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
       {
@@ -156,6 +156,33 @@ export const handleEditProductDetails = async (req, res) => {
       },
       { new: true }
     );
+    const product_id = updatedProduct._id;
+    const existingProductInCollection = await Collection.findOne({
+      collectionName: productCollection,
+      collectionProductsIds: {
+        $elemMatch: { _id: product_id },
+      },
+    })
+      .then((data) => {
+        if (data) {
+          return data;
+        }
+      })
+      .catch((err) => {
+        return err;
+      });
+    if (!existingProductInCollection) {
+      await Collection.findOneAndUpdate(
+        ({ collectionName: product.productCollection },
+        { $pull: { collectionProductsIds: product._id } },
+        { new: true, upsert: true })
+      );
+      await Collection.findOneAndUpdate(
+        { collectionName: productCollection },
+        { $push: { collectionProductsIds: product_id } },
+        { new: true, upsert: true }
+      );
+    }
     return res.status(200).json({ updatedProduct: updatedProduct });
   } catch (error) {
     return res

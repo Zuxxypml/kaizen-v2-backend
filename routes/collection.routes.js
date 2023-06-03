@@ -1,8 +1,15 @@
 import express from "express";
-import { handleGetCollections } from "../controllers/collection.controllers.js";
+import {
+  handleCreateNewCollection,
+  handleGetCollections,
+} from "../controllers/collection.controllers.js";
+import { verifyToken } from "../middleware/auth.js";
 
 const collectionRouter = express.Router();
 
-collectionRouter.route("/").get(handleGetCollections);
+collectionRouter
+  .route("/")
+  .get(handleGetCollections)
+  .post(verifyToken, handleCreateNewCollection);
 
 export default collectionRouter;
