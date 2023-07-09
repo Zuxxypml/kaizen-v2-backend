@@ -19,6 +19,7 @@ import {
   handleEditProductDetails,
 } from "./controllers/product.controllers.js";
 import { verifyToken } from "./middleware/auth.js";
+import deliveryPricesRouter from "./routes/Deliveryprices.routes.js";
 import bannerRouter from "./routes/banner.routes.js";
 import collectionRouter from "./routes/collection.routes.js";
 import mailRouter from "./routes/mail.routes.js";
@@ -108,8 +109,9 @@ app.use("/api/collection", collectionRouter);
 app.use("/api/mail", mailRouter);
 app.use("/api/banner", bannerRouter);
 app.use("/auth", authRouter);
+app.use("/api/delivery-prices", deliveryPricesRouter);
 /* MONGOOSE SETUP */
-const PORT = process.env.PORT || 6001;
+const PORT = 6001 || process.env.PORT;
 
 mongoose
   .connect(process.env.MONGO_URL, {
