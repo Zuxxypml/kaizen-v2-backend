@@ -25,6 +25,7 @@ import collectionRouter from "./routes/collection.routes.js";
 import mailRouter from "./routes/mail.routes.js";
 import productRouter from "./routes/product.routes.js";
 import authRouter from "./routes/user.routes.js";
+import checkRouter from "./routes/status.routes.js";
 dotenv.config();
 
 /* CONFIGURATIONS */
@@ -110,6 +111,8 @@ app.use("/api/mail", mailRouter);
 app.use("/api/banner", bannerRouter);
 app.use("/auth", authRouter);
 app.use("/api/delivery-prices", deliveryPricesRouter);
+app.use("/api/check", checkRouter);
+
 /* MONGOOSE SETUP */
 const PORT = 6001 || process.env.PORT;
 
