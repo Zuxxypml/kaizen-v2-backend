@@ -8,16 +8,16 @@ export const handleWebHook = async (req, res) => {
   const secret = process.env.PAYSTACK_SECRET_KEY; // Your Paystack secret key
   const body = JSON.stringify(req.body); // Use raw body for signature verification
 
-  //   // Validate the webhook signature
-  //   const computedHash = crypto
-  //     .createHmac("sha512", secret)
-  //     .update(body)
-  //     .digest("hex");
+  // Validate the webhook signature
+  const computedHash = crypto
+    .createHmac("sha512", secret)
+    .update(body)
+    .digest("hex");
 
-  //   if (computedHash !== receivedHash) {
-  //     console.error("Invalid Paystack signature");
-  //     return res.status(400).send("Invalid signature");
-  //   }
+  if (computedHash !== receivedHash) {
+    console.error("Invalid Paystack signature");
+    return res.status(400).send("Invalid signature");
+  }
 
   const event = req.body;
 
