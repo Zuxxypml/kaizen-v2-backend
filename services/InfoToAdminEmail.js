@@ -11,15 +11,10 @@ let transporter = nodemailer.createTransport({
 });
 
 // send email
-export const InfoToAdminEmail = (
-  phone,
-  email,
-  orderId,
-  deliveryType,
-  address,
-  marketerCode
-) => {
+export const InfoToAdminEmail = (metadata) => {
   return new Promise((resolve, reject) => {
+    const { phone, email, orderId, deliveryType, address, marketerCode } =
+      metadata;
     const options = {
       from: `Kaizen Brand 🛍️ <${process.env.CONTACT}>`,
       to: process.env.CONTACT,

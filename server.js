@@ -22,10 +22,11 @@ import { verifyToken } from "./middleware/auth.js";
 import deliveryPricesRouter from "./routes/Deliveryprices.routes.js";
 import bannerRouter from "./routes/banner.routes.js";
 import collectionRouter from "./routes/collection.routes.js";
-import mailRouter from "./routes/mail.routes.js";
+// import mailRouter from "./routes/mail.routes.js";
 import productRouter from "./routes/product.routes.js";
 import authRouter from "./routes/user.routes.js";
 import checkRouter from "./routes/status.routes.js";
+import webHookRouter from "./routes/webhook.routes.js";
 dotenv.config();
 
 /* CONFIGURATIONS */
@@ -39,6 +40,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+
 // var whitelist = [
 //   "http://localhost:3000",
 //   "http://localhost:3000/",
@@ -107,11 +109,12 @@ app.patch(
 // ROUTES
 app.use("/api/product", productRouter);
 app.use("/api/collection", collectionRouter);
-app.use("/api/mail", mailRouter);
+// app.use("/api/mail", mailRouter);
 app.use("/api/banner", bannerRouter);
 app.use("/auth", authRouter);
 app.use("/api/delivery-prices", deliveryPricesRouter);
 app.use("/api/check", checkRouter);
+app.use("/api/webhook/", webHookRouter);
 
 /* MONGOOSE SETUP */
 const PORT = 6001 || process.env.PORT;

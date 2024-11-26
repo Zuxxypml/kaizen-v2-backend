@@ -11,16 +11,17 @@ let transporter = nodemailer.createTransport({
 });
 
 // send email
-export const EmailSender = (
-  email,
-  orderId,
-  cartItems,
-  subTotal,
-  totalPrice,
-  shippingFee,
-  pickupLocation,
-  address
-) => {
+export const EmailSender = (metadata) => {
+  const {
+    email,
+    orderId,
+    cartItems,
+    subTotal,
+    totalPrice,
+    shippingFee,
+    pickupLocation,
+    address,
+  } = metadata;
   let items =
     cartItems.length &&
     cartItems.map(
