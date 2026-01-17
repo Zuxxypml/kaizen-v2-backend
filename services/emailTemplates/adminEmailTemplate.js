@@ -38,13 +38,14 @@ export const generateAdminEmailTemplate = (metadata, todayDate) => {
   <title>New Order Notification</title>
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,600,700" rel="stylesheet" type="text/css" />
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; padding: 0; }
+    body { margin: 0; padding: 0; font-family: 'Lato', Arial, sans-serif; color: #333; }
     a[x-apple-data-detectors] { color: inherit !important; text-decoration: inherit !important; }
     #MessageViewBody a { color: inherit; text-decoration: none; }
-    p { line-height: inherit; }
+    p { line-height: 1.6; margin: 0; }
+    h2, h3 { margin: 0; font-weight: 600; }
     .desktop_hide, .desktop_hide table { mso-hide: all; display: none; max-height: 0px; overflow: hidden; }
     @media (max-width: 670px) {
       .desktop_hide table.icons-inner, .social_block.desktop_hide .social-table { display: inline-block !important; }
@@ -62,71 +63,115 @@ export const generateAdminEmailTemplate = (metadata, todayDate) => {
     <tbody>
       <tr>
         <td>
-          <table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content" style="width: 650px; background-color: #b8a06a;">
+          <!-- Alert Header -->
+          <table align="center" border="0" cellpadding="0" cellspacing="0" class="row-content" style="width: 650px; background: linear-gradient(135deg, #C44536 0%, #D94C3A 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
             <tbody>
               <tr>
-                <td style="padding: 20px; text-align: center;">
-                  <h2 style="color: #fff; margin: 0;">New Order Received! 🛍️</h2>
+                <td style="padding: 40px 20px; text-align: center;">
+                  <h2 style="color: #fff; margin: 0; font-size: 28px; letter-spacing: 0.5px;">New Order Alert</h2>
+                  <p style="color: rgba(255,255,255,0.9); margin: 8px 0 0 0; font-size: 14px;">A new customer order has been received</p>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 650px;">
+          <!-- Content -->
+          <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 650px; background-color: #fff;">
             <tbody>
               <tr>
-                <td style="padding: 20px; background-color: #fff;">
-                  <p><strong>Order ID:</strong> ${orderId}</p>
-                  <p><strong>Date:</strong> ${todayDate}</p>
-                  <p><strong>Customer Email:</strong> ${email}</p>
-                  <hr style="border: none; border-top: 1px solid #ddd;" />
-                  
-                  <h3 style="color: #333;">Order Items</h3>
-                  ${itemsHTML}
-                  
-                  <hr style="border: none; border-top: 1px solid #ddd; margin-top: 20px;" />
-                  
-                  <table style="width: 100%; margin-top: 20px;">
+                <td style="padding: 30px;">
+                  <!-- Customer & Order Info -->
+                  <table style="width: 100%; margin-bottom: 30px;">
                     <tr>
-                      <td style="padding: 10px; text-align: left;"><strong>Subtotal:</strong></td>
-                      <td style="padding: 10px; text-align: right;">₦${formatPrice(
-                        subTotal
-                      )}</td>
-                    </tr>
-                    <tr>
-                      <td style="padding: 10px; text-align: left;"><strong>Shipping Fee:</strong></td>
-                      <td style="padding: 10px; text-align: right;">₦${formatPrice(
-                        shippingFee
-                      )}</td>
-                    </tr>
-                    <tr style="background-color: #f9f9f9;">
-                      <td style="padding: 10px; text-align: left;"><strong>Total:</strong></td>
-                      <td style="padding: 10px; text-align: right;"><strong>₦${formatPrice(
-                        totalPrice
-                      )}</strong></td>
+                      <td style="padding: 12px 0; border-bottom: 1px solid #eee;">
+                        <p style="color: #666; font-size: 12px; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Order ID</p>
+                        <p style="font-size: 16px; font-weight: 600; color: #333; margin: 4px 0 0 0;">${orderId}</p>
+                      </td>
+                      <td style="padding: 12px 0 12px 20px; border-bottom: 1px solid #eee;">
+                        <p style="color: #666; font-size: 12px; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Order Date</p>
+                        <p style="font-size: 16px; font-weight: 600; color: #333; margin: 4px 0 0 0;">${todayDate}</p>
+                      </td>
                     </tr>
                   </table>
 
-                  <hr style="border: none; border-top: 1px solid #ddd; margin-top: 20px;" />
+                  <!-- Customer Email Alert -->
+                  <table style="width: 100%; background-color: #FFF3CD; border-left: 3px solid #FFC107; margin-bottom: 25px;">
+                    <tr>
+                      <td style="padding: 15px 15px;">
+                        <p style="color: #856404; font-size: 13px; margin: 0;">
+                          <strong>Customer Email:</strong> ${email}
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <!-- Items Section -->
+                  <h3 style="color: #333; font-size: 16px; margin: 25px 0 20px 0; text-transform: uppercase; letter-spacing: 0.5px; border-left: 3px solid #C44536; padding-left: 12px;">Order Items</h3>
+                  ${itemsHTML}
                   
-                  <h3 style="color: #333;">Delivery Information</h3>
-                  <p><strong>Pickup Location:</strong> ${
-                    pickupLocation || "N/A"
-                  }</p>
-                  <p><strong>Delivery Address:</strong> ${address || "N/A"}</p>
+                  <!-- Summary Section -->
+                  <table style="width: 100%; margin-top: 30px; background-color: #f9f9f9; border-radius: 4px;">
+                    <tr>
+                      <td style="padding: 15px 20px; border-bottom: 1px solid #eee;">
+                        <p style="color: #666; font-size: 13px; margin: 0;">Subtotal</p>
+                        <p style="font-size: 16px; font-weight: 600; color: #C44536; margin: 4px 0 0 0;">₦${formatPrice(
+                          subTotal
+                        )}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 15px 20px; border-bottom: 1px solid #eee;">
+                        <p style="color: #666; font-size: 13px; margin: 0;">Shipping Fee</p>
+                        <p style="font-size: 16px; font-weight: 600; color: #C44536; margin: 4px 0 0 0;">₦${formatPrice(
+                          shippingFee
+                        )}</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 18px 20px; background-color: #fff;">
+                        <p style="color: #666; font-size: 13px; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Total Amount</p>
+                        <p style="font-size: 24px; font-weight: 700; color: #C44536; margin: 6px 0 0 0;">₦${formatPrice(
+                          totalPrice
+                        )}</p>
+                      </td>
+                    </tr>
+                  </table>
+
+                  <!-- Delivery Information -->
+                  <h3 style="color: #333; font-size: 16px; margin: 30px 0 15px 0; text-transform: uppercase; letter-spacing: 0.5px; border-left: 3px solid #C44536; padding-left: 12px;">Delivery Details</h3>
+                  <table style="width: 100%; background-color: #f9f9f9; border-radius: 4px;">
+                    <tr>
+                      <td style="padding: 15px 20px;">
+                        <p style="color: #666; font-size: 12px; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Pickup Location</p>
+                        <p style="font-size: 14px; color: #333; margin: 4px 0 0 0;">${
+                          pickupLocation || "N/A"
+                        }</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 15px 20px;">
+                        <p style="color: #666; font-size: 12px; margin: 0; text-transform: uppercase; letter-spacing: 0.5px;">Delivery Address</p>
+                        <p style="font-size: 14px; color: #333; margin: 4px 0 0 0;">${
+                          address || "N/A"
+                        }</p>
+                      </td>
+                    </tr>
+                  </table>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 650px; background-color: #000; color: #fff;">
+          <!-- Footer -->
+          <table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 650px; background-color: #2a2a2a; color: #fff;">
             <tbody>
               <tr>
-                <td style="padding: 20px; text-align: center;">
-                  <p style="margin: 0; font-size: 14px;">Kaizen Brand - Making life easier</p>
-                  <p style="margin: 5px 0 0 0; font-size: 12px;">12, Abudu Street, Abule Oja, Lagos, Nigeria</p>
-                  <p style="margin: 10px 0 0 0; font-size: 12px;">Help & FAQ: <strong>234-905-421-0115</strong></p>
-                  <p style="margin: 10px 0 0 0; font-size: 11px;"><a href="https://adebisiakinade.vercel.app/" style="color: #9d9d9d; text-decoration: none;">Designed by Adebisi Akinade</a></p>
+                <td style="padding: 30px; text-align: center;">
+                  <h3 style="color: #fff; margin: 0 0 15px 0; font-size: 18px; letter-spacing: 0.5px;">Kaizen Brand</h3>
+                  <p style="margin: 0 0 12px 0; font-size: 12px; color: #b0b0b0;">12, Abudu Street, Abule Oja, Lagos, Nigeria</p>
+                  <p style="margin: 0 0 15px 0; font-size: 12px; color: #b0b0b0;">Phone: <strong>234-905-421-0115</strong></p>
+                  <p style="margin: 0; padding-top: 15px; border-top: 1px solid #444; font-size: 11px; color: #888;">© 2025 Kaizen Brand. All rights reserved.</p>
+                  <p style="margin: 8px 0 0 0; font-size: 10px; color: #666;">Made with ❤️ by <a href="https://adebisiakinade.vercel.app/" style="color: #C44536; text-decoration: none; font-weight: 600;">Akinade</a></p>
                 </td>
               </tr>
             </tbody>
